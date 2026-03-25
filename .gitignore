@@ -1,7 +1,37 @@
+# macOS / editor cruft
 .DS_Store
+.AppleDouble
+._*
+*.swp
+*.swo
+*~
 
-# Large local datasets
-data/*.dta
-
-# Keep the data directory in Git without publishing the raw files
+# Local-only data
+data/*
 !data/.gitkeep
+!data/README.md
+
+# Generated outputs
+output/*
+!output/.gitkeep
+!output/README.md
+!output/figures/
+!output/tables/
+!output/logs/
+output/figures/*
+output/tables/*
+output/logs/*
+!output/figures/.gitkeep
+!output/tables/.gitkeep
+!output/logs/.gitkeep
+
+# Paper build artefacts
+paper/*.aux
+paper/*.bbl
+paper/*.blg
+paper/*.fdb_latexmk
+paper/*.fls
+paper/*.log
+!paper/EC338_Assignment_2_Group[T]_Spain.log
+paper/*.out
+paper/*.synctex.gz
