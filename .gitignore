@@ -1,0 +1,7 @@
+.DS_Store
+
+# Large local datasets
+data/*.dta
+
+# Keep the data directory in Git without publishing the raw files
+!data/.gitkeep
