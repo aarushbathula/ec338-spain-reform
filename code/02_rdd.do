@@ -33,6 +33,7 @@ merge 1:1 municipality_code using `lag2007', nogen
 gen pop_c = population_2011 - 3000
 
 rdrobust share_elected pop_c, c(0) p(1) kernel(triangular)
+estimates store rdd_main
 
 rdplot share_elected pop_c if inrange(pop_c, -1111.475, 1111.475), ///
     c(0) p(1) h(1111.475 1111.475) kernel(triangular)
@@ -44,6 +45,14 @@ graph save "$figures_dir/rddensity_population_3000_16dec.gph", replace
 graph export "$figures_dir/rddensity_population_3000_16dec.pdf", replace
 
 rdrobust share_elected_2007 pop_c, c(0) p(1) kernel(triangular)
+estimates store rdd_placebo
 rdplot share_elected_2007 pop_c, c(0) p(1)
 graph save "$figures_dir/rdplot_share_female_councillors_2007_placebo_16dec.gph", replace
 graph export "$figures_dir/rdplot_share_female_councillors_2007_placebo_16dec.pdf", replace
+
+esttab rdd_main rdd_placebo using "$tables_dir/table_q3_rdd.tex", replace ///
+    se star(* 0.10 ** 0.05 *** 0.01) label ///
+    mtitles("Main RD (2011)" "Placebo RD (2007)") ///
+    coeflabels(y1 "RD effect") ///
+    stats(N h_l h_r pv_rb, ///
+          labels("Observations" "Left bandwidth" "Right bandwidth" "Robust p-value"))

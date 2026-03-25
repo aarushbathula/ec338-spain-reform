@@ -34,10 +34,12 @@ estimates store q4_ols
 
 xtreg share_female_councillors instrument i.year, fe ///
     vce(cluster municipality_code)
+estimates store q4_firststage
 local first_stage_coef = _b[instrument]
 testparm instrument
 
 xtreg female_mayor instrument i.year, fe vce(cluster municipality_code)
+estimates store q4_reducedform
 local reduced_form_coef = _b[instrument]
 
 local wald_estimate = `reduced_form_coef' / `first_stage_coef'
@@ -47,3 +49,11 @@ xtivreg female_mayor i.year ///
     (share_female_councillors = instrument), fe ///
     vce(cluster municipality_code)
 estimates store iv_fe
+
+esttab q4_ols q4_firststage q4_reducedform iv_fe using "$tables_dir/table_q4_iv.tex", replace ///
+    se star(* 0.10 ** 0.05 *** 0.01) label ///
+    mtitles("OLS" "First stage" "Reduced form" "2SLS FE") ///
+    keep(share_female_councillors instrument) ///
+    coeflabels(share_female_councillors "Share female councillors" ///
+               instrument "Quota instrument") ///
+    stats(N, labels("Observations"))
