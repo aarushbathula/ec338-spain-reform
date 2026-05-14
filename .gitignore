@@ -26,12 +26,13 @@ output/logs/*
 !output/logs/.gitkeep
 
 # Paper build artefacts
+paper/*.pdf
+paper/**/*.pdf
 paper/*.aux
 paper/*.bbl
 paper/*.blg
 paper/*.fdb_latexmk
 paper/*.fls
 paper/*.log
-!paper/EC338_Assignment_2_Group[T]_Spain.log
 paper/*.out
 paper/*.synctex.gz
